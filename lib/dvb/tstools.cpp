@@ -46,7 +46,7 @@ RESULT eTSFileSectionReader::stop()
 	return 0;
 }
 
-RESULT eTSFileSectionReader::connectRead(const Slot1<void,const uint8_t*> &r, ePtr<eConnection> &conn)
+RESULT eTSFileSectionReader::connectRead(const sigc::slot1<void,const uint8_t*> &r, ePtr<eConnection> &conn)
 {
 	conn = new eConnection(this, read.connect(r));
 	return 0;
@@ -675,7 +675,6 @@ int eDVBTSTools::takeSample(off_t off, pts_t &p)
 	{
 			/* as we are happily mixing PTS and PCR values (no comment, please), we might
 			   end up with some "negative" segments.
-
 			   so check if this new sample is between the previous and the next field*/
 
 		std::map<pts_t, off_t>::const_iterator l = m_samples.lower_bound(p);
