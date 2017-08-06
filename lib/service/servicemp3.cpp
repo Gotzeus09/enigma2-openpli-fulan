@@ -812,7 +812,7 @@ DEFINE_REF(eServiceMP3);
 
 DEFINE_REF(GstMessageContainer);
 
-RESULT eServiceMP3::connectEvent(const Slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection)
+RESULT eServiceMP3::connectEvent(const sigc::slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection)
 {
 	connection = new eConnection((iPlayableService*)this, m_event.connect(event));
 	return 0;
@@ -2757,18 +2757,15 @@ void eServiceMP3::pushSubtitles()
 
 #if 0
 		eDebug("[eServiceMP3] *** all subs: ");
-
 		for (current = m_subtitle_pages.begin(); current != m_subtitle_pages.end(); current++)
 		{
 			start_ms = current->second.start_ms;
 			end_ms = current->second.end_ms;
 			diff_start_ms = start_ms - decoder_ms;
 			diff_end_ms = end_ms - decoder_ms;
-
 			eDebug("[eServiceMP3]    start: %d, end: %d, diff_start: %d, diff_end: %d: %s",
 					start_ms, end_ms, diff_start_ms, diff_end_ms, current->second.text.c_str());
 		}
-
 #endif
 
 	for (current = m_subtitle_pages.lower_bound(decoder_ms); current != m_subtitle_pages.end(); current++)
