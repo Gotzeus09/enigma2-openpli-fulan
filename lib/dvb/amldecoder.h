@@ -35,7 +35,7 @@ extern "C" {
 class eSocketNotifier;
 
 
-class eAMLTSMPEGDecoder: public Object, public iTSMPEGDecoder
+class eAMLTSMPEGDecoder: public sigc::trackable, public iTSMPEGDecoder
 {
 	DECLARE_REF(eAMLTSMPEGDecoder);
 private:
@@ -69,7 +69,7 @@ private:
 
 	void demux_event(int event);
 	void video_event(struct videoEvent);
-	Signal1<void, struct videoEvent> m_video_event;
+	sigc::signal1<void, struct videoEvent> m_video_event;
 	int m_video_clip_fd;
 	ePtr<eTimer> m_showSinglePicTimer;
 	void finishShowSinglePic(); // called by timer
@@ -107,7 +107,6 @@ public:
 
 		/*
 		The following states exist:
-
 		 - stop: data source closed, no playback
 		 - pause: data source active, decoder paused
 		 - play: data source active, decoder consuming
@@ -135,7 +134,7 @@ public:
 	RESULT setRadioPic(const std::string &filename);
 		/* what 0=auto, 1=video, 2=audio. */
 	RESULT getPTS(int what, pts_t &pts);
-	RESULT connectVideoEvent(const Slot1<void, struct videoEvent> &event, ePtr<eConnection> &connection);
+	RESULT connectVideoEvent(const sigc::slot1<void, struct videoEvent> &event, ePtr<eConnection> &connection);
 	int getVideoWidth();
 	int getVideoHeight();
 	int getVideoProgressive();
