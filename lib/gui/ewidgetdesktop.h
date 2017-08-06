@@ -13,7 +13,6 @@ class eTimer;
 		   buffer - the screen.
 		   in buffered mode, we have one buffer for each widget, plus
 		   the screen.
-
 		   even in buffered mode, we have a background region, because
 		   a window can be arbitrary shaped. the screen size acts as a bounding
 		   box in these cases. */
@@ -28,7 +27,7 @@ struct eWidgetDesktopCompBuffer
 	gRGB m_background_color;
 };
 
-class eWidgetDesktop: public Object
+class eWidgetDesktop: public sigc::trackable
 {
 public:
 	eWidgetDesktop(eSize screen);
